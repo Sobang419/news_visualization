@@ -16,20 +16,19 @@ st.title("뉴스 카테고리 및 감정 분포")
 selected_date = st.selectbox("날짜 선택", df['datetime'].unique())
 
 # 주식 코드 선택 또는 직접 입력
-stock_code_options = list(df['stock_code'].unique())
-stock_code_options.insert(0, "주식 코드 입력 또는 선택")
-selected_stock_code = st.selectbox("주식 코드 선택", stock_code_options)
-
-# 만약 사용자가 '주식 코드 입력 또는 선택'을 선택했다면, 텍스트 입력을 받습니다.
-if selected_stock_code == "주식 코드 입력 또는 선택":
-    selected_stock_code = st.text_input("", "여기에 입력하세요.")
+stock_code_options = ['선택하세요...'] + list(df['stock_code'].unique())
+selected_stock_code = st.selectbox("주식 코드 선택 또는 입력", stock_code_options, index=0)
 
 # 주식 코드 검증
-if selected_stock_code not in df['stock_code'].unique():
-    st.error("잘못된 주식 코드입니다.")
+if selected_stock_code == '선택하세요...':
+    st.warning("주식 코드를 선택하거나 입력해 주세요.")
+    # 필터링된 데이터를 표시하지 않고 조기 종료
 else:
-    # 필터링된 데이터
-    filtered_data = df[(df['datetime'] == selected_date) & (df['stock_code'] == selected_stock_code)]
+    if selected_stock_code not in df['stock_code'].unique():
+        st.error("잘못된 주식 코드입니다.")
+    else:
+        # 필터링된 데이터
+        filtered_data = df[(df['datetime'] == selected_date) & (df['stock_code'] == selected_stock_code)]
 
 
 # 뉴스가 없는 경우 처리
