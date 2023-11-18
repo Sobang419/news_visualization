@@ -4,3 +4,4 @@ matplotlib
 numpy
 matplotlib.pyplot 
 seaborn
+plotly
