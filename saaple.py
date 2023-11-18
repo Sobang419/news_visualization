@@ -15,14 +15,15 @@ st.title("뉴스 카테고리 및 감정 분포")
 # 사용자 입력 받기
 selected_date = st.selectbox("날짜 선택", df['datetime'].unique())
 
-# 주식 코드 직접 입력 또는 선택
-input_stock_code = st.text_input("주식 코드 직접 입력")
-if input_stock_code:
-    selected_stock_code = input_stock_code
-else:
-    unique_stock_codes = df['stock_code'].drop_duplicates().sort_values()
-    selected_stock_code = st.selectbox("주식 코드 선택", unique_stock_codes)
+# 주식 코드 입력 또는 선택
+input_stock_code = st.text_input("주식 코드 입력")
+selected_stock_code = st.selectbox("주식 코드 선택", df['stock_code'].unique(), format_func=lambda x: '입력값 사용' if x == input_stock_code else x)
 
+# 주식 코드 검증
+if input_stock_code and input_stock_code not in df['stock_code'].unique():
+    st.error("wrong stock_code")
+else:
+    selected_stock_code = selected_stock_code or input_stock_code
 # 필터링된 데이터
 filtered_data = df[(df['datetime'] == selected_date) & (df['stock_code'] == selected_stock_code)]
 
