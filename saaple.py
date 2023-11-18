@@ -11,11 +11,11 @@ df = load_data()
 st.title("뉴스 카테고리 및 감정 분포")
 
 # 사용자 입력 받기
-selected_date = st.selectbox("날짜 선택", df['date'].unique())
+selected_date = st.selectbox("날짜 선택", df['datetime'].unique())
 selected_stock_code = st.selectbox("주식 코드 선택", df['stock_code'].unique())
 
 # 필터링된 데이터
-filtered_data = df[(df['date'] == selected_date) & (df['stock_code'] == selected_stock_code)]
+filtered_data = df[(df['datetime'] == selected_date) & (df['stock_code'] == selected_stock_code)]
 
 # 카테고리별 감정 레이블링 분포 계산
 category_sentiment_distribution = filtered_data.groupby('aspect')['sentiment'].value_counts().unstack().fillna(0)
