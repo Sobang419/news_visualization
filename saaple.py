@@ -3,7 +3,7 @@ import streamlit as st
 import altair as alt
 @st.cache
 def load_data():
-    return pd.read_csv('/sample.csv')
+    return pd.read_csv('https://github.com/Sobang419/news_visualization/blob/main/sample.csv')
 
 df = load_data()
 
