@@ -24,13 +24,14 @@ if filtered_data.empty:
 else:
     # 카테고리별 감정 레이블링 분포 계산
     category_sentiment_distribution = filtered_data.groupby(['aspect', 'sentiment']).size().reset_index(name='counts')
-    min_bar_height = 1
 
-    # 가로 막대 차트 그리기
+    # 누적 막대 차트 그리기
     chart = alt.Chart(category_sentiment_distribution).mark_bar().encode(
-        x=alt.X('aspect:N', title='Category', axis=alt.Axis(labelAngle=0)), # X축 레이블 가로 배치
-        y=alt.Y('counts:Q', title='Number of News Items', stack='zero', scale=alt.Scale(domain=[0, 15])), # Y축 범위 설정
-        color=alt.Color('sentiment:N', scale=alt.Scale(domain=['Bullish', 'Neutral', 'Bearish'], range=['blue', 'grey', 'red']))
+        x='aspect:N',
+        y=alt.Y('counts:Q', scale=alt.Scale(domain=[0, 15])),
+        color=alt.Color('sentiment:N', legend=alt.Legend(title="Sentiment"), 
+                        scale=alt.Scale(domain=['Bullish', 'Neutral', 'Bearish'], range=['red', 'grey', 'blue'])),
+        order=alt.Order('sentiment:N', sort='ascending')  # 순서 조정
     )
 
     st.altair_chart(chart, use_container_width=True)
