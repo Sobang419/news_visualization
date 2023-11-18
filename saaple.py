@@ -5,7 +5,7 @@ import plotly.express as px
 # 데이터 로드 함수
 @st.cache
 def load_data():
-    return pd.read_csv('https://raw.githubusercontent.com/Sobang419/news_visualization/main/sample2.csv')
+    return pd.read_csv('https://raw.githubusercontent.com/Sobang419/news_visualization/main/sample_2.csv')
 
 df = load_data()
 
