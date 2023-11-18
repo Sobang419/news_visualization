@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
 
 # 데이터 로드 함수
 @st.cache
@@ -15,8 +15,6 @@ st.title("뉴스 카테고리 및 감정 분포")
 
 # 사용자 입력 받기
 selected_date = st.selectbox("날짜 선택", df['datetime'].unique())
-
-# 중복 없는 주식 코드 목록 생성
 unique_stock_codes = df['stock_code'].drop_duplicates().sort_values()
 selected_stock_code = st.selectbox("주식 코드 선택", unique_stock_codes)
 
@@ -28,14 +26,16 @@ if filtered_data.empty:
     st.error("This stock didn't have news on this day.")
 else:
     # 카테고리별 감정 레이블링 분포 계산
-    category_sentiment_distribution = filtered_data.groupby(['aspect', 'sentiment']).size().unstack().fillna(0)
+    category_sentiment_distribution = filtered_data.groupby(['aspect', 'sentiment']).size().reset_index(name='counts')
 
-    # 누적 막대 그래프 그리기
-    ax = category_sentiment_distribution.plot(kind='bar', stacked=True, color=['blue', 'grey', 'red'])
-    ax.set_xlabel('Category')
-    ax.set_ylabel('Number of News Items')
-    ax.set_title('News Sentiment Distribution by Category')
+    # seaborn을 사용하여 누적 막대 그래프 그리기
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x='aspect', y='counts', hue='sentiment', data=category_sentiment_distribution, palette=['blue', 'grey', 'red'])
+
+    plt.xlabel('Category')
+    plt.ylabel('Number of News Items')
+    plt.title('News Sentiment Distribution by Category')
     plt.xticks(rotation=45)
-    plt.legend(title='Sentiment', labels=['Positive', 'Neutral', 'Negative'])
-    
+    plt.legend(title='Sentiment')
+
     st.pyplot()
