@@ -1,7 +1,6 @@
 import pandas as pd
 import streamlit as st
-import seaborn as sns
-import matplotlib.pyplot as plt
+import plotly.express as px
 
 # 데이터 로드 함수
 @st.cache
@@ -28,14 +27,10 @@ else:
     # 카테고리별 감정 레이블링 분포 계산
     category_sentiment_distribution = filtered_data.groupby(['aspect', 'sentiment']).size().reset_index(name='counts')
 
-    # seaborn을 사용하여 누적 막대 그래프 그리기
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x='aspect', y='counts', hue='sentiment', data=category_sentiment_distribution, palette=['blue', 'grey', 'red'])
+    # Plotly Express를 사용하여 누적 막대 그래프 그리기
+    fig = px.bar(category_sentiment_distribution, x='aspect', y='counts', color='sentiment', 
+                 title='News Sentiment Distribution by Category',
+                 labels={'counts':'Number of News Items', 'aspect':'Category', 'sentiment':'Sentiment'},
+                 color_discrete_map={'Positive':'blue', 'Neutral':'grey', 'Negative':'red'})
 
-    plt.xlabel('Category')
-    plt.ylabel('Number of News Items')
-    plt.title('News Sentiment Distribution by Category')
-    plt.xticks(rotation=45)
-    plt.legend(title='Sentiment')
-
-    st.pyplot()
+    st.plotly_chart(fig)
