@@ -29,7 +29,7 @@ else:
     chart = alt.Chart(category_sentiment_distribution).mark_bar().encode(
         x=alt.X('aspect:N', title='Category', axis=alt.Axis(labelAngle=0)), # X축 레이블 가로 배치
         y=alt.Y('counts:Q', title='Number of News Items', stack='zero', scale=alt.Scale(domain=[0, 15])), # Y축 범위 설정
-        color=alt.Color('sentiment:N', scale=alt.Scale(domain=['Positive', 'Neutral', 'Negative'], range=['blue', 'grey', 'red']))
+        color=alt.Color('sentiment:N', scale=alt.Scale(domain=['Bullish', 'Neutral', 'Bearish'], range=['blue', 'grey', 'red']))
     )
 
     st.altair_chart(chart, use_container_width=True)
