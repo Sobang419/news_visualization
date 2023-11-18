@@ -15,17 +15,18 @@ st.title("뉴스 카테고리 및 감정 분포")
 # 사용자 입력 받기
 selected_date = st.selectbox("날짜 선택", df['datetime'].unique())
 
-# 주식 코드 직접 입력 또는 선택
-input_stock_code = st.text_input("주식 코드 입력")
-if input_stock_code:
-    selected_stock_code = input_stock_code
-else:
-    selected_stock_code = st.selectbox("주식 코드 선택", df['stock_code'].unique())
+# 주식 코드 선택 또는 직접 입력
+stock_code_options = list(df['stock_code'].unique())
+stock_code_options.insert(0, "주식 코드 입력 또는 선택")
+selected_stock_code = st.selectbox("주식 코드 선택", stock_code_options)
+
+# 만약 사용자가 '주식 코드 입력 또는 선택'을 선택했다면, 텍스트 입력을 받습니다.
+if selected_stock_code == "주식 코드 입력 또는 선택":
+    selected_stock_code = st.text_input("", "여기에 입력하세요.")
 
 # 주식 코드 검증
 if selected_stock_code not in df['stock_code'].unique():
-    st.error("wrong stock_code")
-    # 데이터를 처리하지 않고 조기에 함수를 종료
+    st.error("잘못된 주식 코드입니다.")
 else:
     # 필터링된 데이터
     filtered_data = df[(df['datetime'] == selected_date) & (df['stock_code'] == selected_stock_code)]
@@ -42,6 +43,6 @@ else:
     fig = px.bar(category_sentiment_distribution, x='aspect', y='counts', color='sentiment', 
                  title='News Sentiment Distribution by Category',
                  labels={'counts':'Number of News Items', 'aspect':'Category', 'sentiment':'Sentiment'},
-                 color_discrete_map={'Positive':'blue', 'Neutral':'grey', 'Negative':'red'})
+                 color_discrete_map={'Positive':'red', 'Neutral':'grey', 'Negative':'blue'})
 
     st.plotly_chart(fig)
