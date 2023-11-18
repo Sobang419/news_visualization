@@ -38,4 +38,4 @@ else:
     plt.xticks(rotation=45)
     plt.legend(title='Sentiment', labels=['Positive', 'Neutral', 'Negative'])
     
-    st.pyplot(plt)
+    st.pyplot()
