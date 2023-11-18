@@ -37,8 +37,12 @@ if selected_date != '날짜를 선택하세요' and selected_stock_code != '주�
         fig = px.bar(category_sentiment_distribution, x='aspect', y='counts', color='sentiment', 
                      title='News Sentiment Distribution by Category',
                      labels={'counts':'Number of News Items', 'aspect':'Category', 'sentiment':'Sentiment'},
-                     color_discrete_map={'Positive':'red', 'Neutral':'grey', 'Negative':'blue'})
+                     color_discrete_map={'Bullish':'red', 'Bearish':'blue', 'Neutral':'grey'},
+                     text='counts')  # 막대에 개수를 표시
 
+        # 막대 위에 값 표시를 위한 설정
+        fig.update_traces(texttemplate='%{text}', textposition='outside')
+        
         st.plotly_chart(fig)
     else:
         st.error("선택한 날짜에 해당하는 뉴스가 없습니다.")
