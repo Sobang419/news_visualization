@@ -6,15 +6,6 @@ import seaborn as sns
 # 데이터 로드 함수
 @st.cache
 def load_data():
-    return pd.read_csv('import pandas as pd
-import pandas as pd
-import streamlit as st
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# 데이터 로드 함수
-@st.cache
-def load_data():
     return pd.read_csv('https://raw.githubusercontent.com/Sobang419/news_visualization/main/sample2.csv')
 
 df = load_data()
