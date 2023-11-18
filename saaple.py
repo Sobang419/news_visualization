@@ -24,6 +24,7 @@ if filtered_data.empty:
 else:
     # 카테고리별 감정 레이블링 분포 계산
     category_sentiment_distribution = filtered_data.groupby(['aspect', 'sentiment']).size().reset_index(name='counts')
+    min_bar_height = 1
 
     # 가로 막대 차트 그리기
     chart = alt.Chart(category_sentiment_distribution).mark_bar().encode(
